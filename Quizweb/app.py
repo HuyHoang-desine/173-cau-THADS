@@ -165,6 +165,8 @@ def practice():
 
         labels = ["A", "B", "C", "D"]
         shuffled_options = []
+
+        ccorrect_answers = q["correct_answer"].split(",")
         new_correct = None
 
         for i, opt in enumerate(options):
@@ -174,10 +176,10 @@ def practice():
 
             shuffled_options.append((new_letter, text))
 
-            if old_letter == q["correct_answer"]:
-                new_correct = new_letter
+            if old_letter in correct_answers:
+                new_correct.append(new_letter)
 
-        answer_key[str(q["id"])] = new_correct
+        answer_key[str(q["id"])] = ",".join(sorted(new_correct))
 
         processed_questions.append({
             "id": q["id"],
