@@ -155,18 +155,18 @@ def practice():
 
     for q in all_questions:
         options = [
-            ("A", q["option_a"]),
-            ("B", q["option_b"]),
-            ("C", q["option_c"]),
-            ("D", q["option_d"])
+            ("A", q["option_a"] or ""),
+            ("B", q["option_b"] or ""),
+            ("C", q["option_c"] or ""),
+            ("D", q["option_d"] or "")
         ]
-
         random.shuffle(options)
 
         labels = ["A", "B", "C", "D"]
         shuffled_options = []
 
-        ccorrect_answers = q["correct_answer"].split(",")
+        correct_value = (q["correct_answer"] or "").strip()
+        correct_answers = correct_value.split(",")
         new_correct = None
 
         for i, opt in enumerate(options):
@@ -184,7 +184,8 @@ def practice():
         processed_questions.append({
             "id": q["id"],
             "question": q["question"],
-            "options": shuffled_options
+            "options": shuffled_options,
+            "correct": ",".join(sorted(new_correct))
         })
 
     session["answer_key"] = answer_key
@@ -194,6 +195,7 @@ def practice():
         name="Luyện tập",
         unit="LUYỆN TẬP",
         questions=processed_questions
+        answer_key=answer_key
     )
 
 
