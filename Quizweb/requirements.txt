@@ -1,0 +1,6 @@
+flask
+gunicorn
+sqlite3
+streamlit
+pandas
+openpyxl
