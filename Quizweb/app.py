@@ -167,7 +167,7 @@ def practice():
 
         correct_value = (q["correct_answer"] or "").strip()
         correct_answers = correct_value.split(",")
-        new_correct = None
+        new_correct = ơ]
 
         for i, opt in enumerate(options):
             old_letter = opt[0]
