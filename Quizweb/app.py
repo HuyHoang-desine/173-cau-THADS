@@ -80,11 +80,7 @@ def submit():
 @app.route("/start_exam", methods=["POST"])
 def start_exam():
     name = request.form["name"]
-    unit_b = request.form["unit_b"]
-    unit_c = request.form["unit_c"]
-    unit_d = request.form["unit_d"]
-
-    unit = f"B{unit_b}C{unit_c}D{unit_d}"
+    unit = "TRAC NGHIEM THADS"
 
     conn = get_db()
     all_questions = conn.execute(
