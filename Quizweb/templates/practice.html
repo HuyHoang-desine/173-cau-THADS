@@ -43,7 +43,7 @@ href="{{ url_for('static', filename='style.css') }}">
 
                 {% for option in q.options %}
                 <div class="practice-answer"
-                     onclick="checkAnswer(this, '{{ option[0] }}', '{{ q.correct }}')"
+                     onclick="checkAnswer(this, '{{ option[0] }}', '{{ q.correct }}')">
                     {{ option[0] }}. {{ option[1] }}
                 </div>
                 {% endfor %}
