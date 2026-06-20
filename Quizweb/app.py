@@ -165,9 +165,9 @@ def practice():
         labels = ["A", "B", "C", "D"]
         shuffled_options = []
 
-        correct_value = (q["correct_answer"] or "").strip()
+        correct_answers = (q["correct_answer"] or "").split(",")
         correct_answers = correct_value.split(",")
-        new_correct = ơ]
+        new_correct = []
 
         for i, opt in enumerate(options):
             old_letter = opt[0]
