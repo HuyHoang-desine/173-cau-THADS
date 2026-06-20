@@ -144,60 +144,59 @@ def start_exam():
 # ==========================
 @app.route("/practice", methods=["GET"])
 def practice():
-    conn = get_db()
-    all_questions = conn.execute(
-        "SELECT * FROM questions"
-    ).fetchall()
-    conn.close()
+    try:
+        conn = get_db()
+        all_questions = conn.execute(
+            "SELECT * FROM questions"
+        ).fetchall()
+        conn.close()
 
-    processed_questions = []
-    answer_key = {}
+        processed_questions = []
 
-    for q in all_questions:
-        options = [
-            ("A", q["option_a"] or ""),
-            ("B", q["option_b"] or ""),
-            ("C", q["option_c"] or ""),
-            ("D", q["option_d"] or "")
-        ]
-        random.shuffle(options)
+        for q in all_questions:
+            print("DEBUG QUESTION ID:", q["id"])
 
-        labels = ["A", "B", "C", "D"]
-        shuffled_options = []
+            options = [
+                ("A", q["option_a"] or ""),
+                ("B", q["option_b"] or ""),
+                ("C", q["option_c"] or ""),
+                ("D", q["option_d"] or "")
+            ]
 
-        correct_answers = (q["correct_answer"] or "").split(",")
-        correct_answers = correct_value.split(",")
-        new_correct = []
+            random.shuffle(options)
 
-        for i, opt in enumerate(options):
-            old_letter = opt[0]
-            text = opt[1]
-            new_letter = labels[i]
+            correct_value = (q["correct_answer"] or "").strip()
+            correct_answers = correct_value.split(",")
 
-            shuffled_options.append((new_letter, text))
+            new_correct = []
+            shuffled_options = []
 
-            if old_letter in correct_answers:
-                new_correct.append(new_letter)
+            labels = ["A", "B", "C", "D"]
 
-        answer_key[str(q["id"])] = ",".join(sorted(new_correct))
+            for i, opt in enumerate(options):
+                old_letter = opt[0]
+                text = opt[1]
+                new_letter = labels[i]
 
-        processed_questions.append({
-            "id": q["id"],
-            "question": q["question"],
-            "options": shuffled_options,
-            "correct": ",".join(sorted(new_correct))
-        })
+                shuffled_options.append((new_letter, text))
 
-    session["answer_key"] = answer_key
+                if old_letter in correct_answers:
+                    new_correct.append(new_letter)
 
-    return render_template(
-        "practice.html",
-        name="Luyện tập",
-        unit="LUYỆN TẬP",
-        questions=processed_questions,
-        answer_key=answer_key
-    )
+            processed_questions.append({
+                "id": q["id"],
+                "question": q["question"],
+                "options": shuffled_options,
+                "correct": ",".join(sorted(new_correct))
+            })
 
+        return render_template(
+            "practice.html",
+            questions=processed_questions
+        )
+
+    except Exception as e:
+        return f"<h1>ERROR:</h1><pre>{str(e)}</pre>"
 
 # ==========================
 # LOGIN
